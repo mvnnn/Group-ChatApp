@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>my chatApp</title>
+
+<link type="text/css" rel="stylesheet" href="../css/style.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+</head>
+<body>
+<h1>Chat-App</h1>
+<div class="chat">
+<input type="text" name="name" class="chat-name" placeholder="name">
+<div class="chat-area"></div>
+<div class="chat-messages"></div>
+<textarea placeholder="write message"></textarea>
+
+<div class="chat-status">Status:<span>idle</span>
+</div>
+</div>
+<script>
+$(function(){
+var getNode=function(s){
+return document.querySelector(s);};
+
+chatName = getNode('.chat-name');
+messages = getNode('.chat-area');
+textarea = getNode('.chat textarea');
+statusH=getNode('.chat-status span');
+
+statusdefault=statusH.textContent;
+
+var setStatus = function(s){
+  statusH.textContent=s;
+  if(s !== statusdefault){
+    var delay= setTimeout(function(){
+      setStatus(statusdefault);
+      clearInterval(delay);
+    },3000);
+  }
+};
+
+
+try{
+var socket = io.connect ('http://127.0.0.1:3000');
+}
+catch(e){
+console.log("catch err");
+}
+
+if(socket !== undefined){
+
+  socket.on('output',function(data){
+    if(data.length){
+      for(var i=0 ;i<data.length;i++){
+        var message = document.createElement('div');
+        message.setAttribute('class','chat-message');
+        message.textContent=data[i].name +" : " +data[i].message ;
+
+        messages.appendChild(message);
+        messages.insertBefore(message,messages.firstChild);
+      }
+    }
+  })
+
+  socket.on('status',function(data){
+    setStatus((typeof data === 'object')? data.message : data);
+    if(data.clear === true){
+      textarea.value='';
+    }
+  });
+
+  textarea.addEventListener('keydown',function(event){
+         var self=this,
+             name=chatName.value;
+        if(event.which === 13 && event.shiftKey === false){
+          event.preventDefault();
+          socket.emit('input',{
+            name:name,
+            message : self.value
+          });
+        }
+      });
+    }
+});
+
+</script>
+<script src="http://127.0.0.1:3000/socket.io/socket.io.js"></script>
+
+</body>
+</html>

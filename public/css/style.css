@@ -1,0 +1,54 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800|Roboto+Slab:400,100,300,700);
+
+.chat textarea,
+.chat-name,
+chat-area{
+    border : 5px solid black ;
+}
+.chat-name{
+  font-family: "Open Sans", sans-serif;
+  font-weight:700;
+}
+
+.chat-area {
+  width : 500px;
+  height:400px;
+  padding:10px;
+  overflow-y : scroll;
+  background: transparent;
+  background-image: linear-gradient(to top, #bb0230, #A2B22D);
+  background-repeat: no-repeat;
+
+}
+
+.chat-name{
+  width:500px;
+  padding:10px;
+  margin:0;
+}
+
+.chat-message{
+  margin-bottom:10px;
+}
+.chat textarea{
+  width : 500px;
+  padding:10px;
+  margin:0;
+  max-width:100%;
+}
+
+.chat-status{
+  color:red;
+}
+
+body{
+  font-family: "Roboto Slab", sans-serif;
+  font-weight:400;
+    background: transparent;
+    background-image: linear-gradient(to bottom, #bbaadd, #819A2D);
+    background-repeat: no-repeat;
+    padding:100px;
+    padding-top:50px;
+    padding-left:300px;
+    padding-bottom:15px;
+}
