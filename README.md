@@ -5,4 +5,4 @@ Chat-app using Node.js,socket.io,mongoDB
 you must connect to your database using mongodb
 
 #run
-node server
+  $ node server
